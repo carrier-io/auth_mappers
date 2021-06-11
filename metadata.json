@@ -1,0 +1,8 @@
+{
+  "name": "Auth Mappers Plugin",
+  "version": "0.1",
+  "module": "plugins.auth_mappers",
+  "extract": false,
+  "depends_on": ["auth_root"],
+  "init_after": []
+}
