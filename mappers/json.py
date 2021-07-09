@@ -13,9 +13,9 @@
 #   limitations under the License.
 
 import urllib
-
 import jsonpath_rw
 from flask import request, session, redirect, Response
+
 from pylon.core.tools import log
 
 from .raw import RawMapper

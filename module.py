@@ -1,6 +1,3 @@
-#!/usr/bin/python3
-# coding=utf-8
-
 #   Copyright 2021 getcarrier.io
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
@@ -38,7 +35,7 @@ class Module(module.ModuleModel):
 
     def init(self):
         """ Init module """
-        log.info('Initializing module auth_oidc')
+        log.info('Initializing module auth_mappers')
         _, _, root_module = self.context.module_manager.get_module("auth_root")
         root_settings = root_module.settings
         self.rpc_prefix = root_settings['rpc_manager']['prefix']['mappers']

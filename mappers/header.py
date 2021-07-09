@@ -18,13 +18,11 @@ from flask import redirect, Response
 from pylon.core.tools import log
 
 from .raw import RawMapper
-from ...auth_root.utils.decorators import require_kwargs
 
 
 class HeaderMapper(RawMapper):
-    @require_kwargs('info_endpoint')
-    def __init__(self, *, mapper_settings: dict, access_denied_endpoint: str, **kwargs):
-        super(HeaderMapper, self).__init__(**kwargs)
+    def __init__(self, *, info_endpoint: str, mapper_settings: dict, access_denied_endpoint: str, **kwargs):
+        super().__init__(**kwargs, info_endpoint=info_endpoint)
         self.access_denied_endpoint = access_denied_endpoint
         self.mapper_settings = mapper_settings
 
