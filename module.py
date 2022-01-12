@@ -27,17 +27,17 @@ from .mappers.raw import RawMapper
 class Module(module.ModuleModel):
     """ Pylon module """
 
-    def __init__(self, settings, root_path, context):
-        self.settings = settings
-        self.root_path = root_path
+    def __init__(self, context, descriptor):
         self.context = context
+        self.descriptor = descriptor
+        #
+        self.settings = self.descriptor.config
         self.rpc_prefix = None
 
     def init(self):
         """ Init module """
         log.info('Initializing module auth_mappers')
-        _, _, root_module = self.context.module_manager.get_module("auth_root")
-        root_settings = root_module.settings
+        root_settings = self.context.module_manager.modules["auth_root"].config
         self.rpc_prefix = root_settings['rpc_manager']['prefix']['mappers']
 
         mappers = dict()
