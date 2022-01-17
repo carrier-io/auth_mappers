@@ -34,6 +34,7 @@ class JsonMapper(RawMapper):
             f"{request.base_url}{self.info_endpoint}" \
             f"/query?target=json&scope={urllib.parse.quote_plus(scope)}"
         response.headers["X-Auth-Session-Name"] = session["name"]
+        response.headers["X-Auth-Session-Id"] = session["auth_cookie"]
         return response
 
     def info(self, scope: str = '') -> dict:

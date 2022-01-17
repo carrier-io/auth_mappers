@@ -26,6 +26,7 @@ class RawMapper(BaseMapper):
         """ Map auth data """
         response.headers["X-Auth-Session-Endpoint"] = f"{request.base_url}{self.info_endpoint}/query"
         response.headers["X-Auth-Session-Name"] = session["name"]
+        response.headers["X-Auth-Session-Id"] = session["auth_cookie"]
         return response
 
     def info(self, scope: str = ''):
