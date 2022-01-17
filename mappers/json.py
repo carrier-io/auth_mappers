@@ -14,6 +14,7 @@
 
 import urllib
 import jsonpath_rw
+import flask
 from flask import request, session, redirect, Response
 
 from pylon.core.tools import log
@@ -30,9 +31,11 @@ class JsonMapper(RawMapper):
 
     def auth(self, response: Response, scope: str = '') -> Response:
         """ Map auth data """
-        response.headers["X-Auth-Session-Endpoint"] = \
-            f"{request.base_url}{self.info_endpoint}" \
-            f"/query?target=json&scope={urllib.parse.quote_plus(scope)}"
+        response.headers["X-Auth-Session-Endpoint"] = flask.url_for(
+            "auth_root.info",
+            target="json",
+            scope=urllib.parse.quote_plus(scope),
+        )
         response.headers["X-Auth-Session-Name"] = session["name"]
         response.headers["X-Auth-Session-Id"] = session["auth_cookie"]
         return response

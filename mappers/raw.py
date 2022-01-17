@@ -12,6 +12,7 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
+import flask
 from flask import request, session, Response
 
 from .base import BaseMapper
@@ -24,7 +25,7 @@ class RawMapper(BaseMapper):
 
     def auth(self, response: Response, scope: str = '') -> Response:
         """ Map auth data """
-        response.headers["X-Auth-Session-Endpoint"] = f"{request.base_url}{self.info_endpoint}/query"
+        response.headers["X-Auth-Session-Endpoint"] = flask.url_for("auth_root.info")
         response.headers["X-Auth-Session-Name"] = session["name"]
         response.headers["X-Auth-Session-Id"] = session["auth_cookie"]
         return response
