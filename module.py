@@ -33,12 +33,14 @@ class Module(module.ModuleModel):
         #
         self.settings = self.descriptor.config
         self.rpc_prefix = None
+        self.info_prefix = None
 
     def init(self):
         """ Init module """
         log.info('Initializing module auth_mappers')
         root_settings = self.context.module_manager.modules["auth_root"].config
         self.rpc_prefix = root_settings['rpc_manager']['prefix']['mappers']
+        self.info_prefix = root_settings['rpc_manager']['prefix']['info']
 
         mappers = dict()
         mappers['raw'] = RawMapper(info_endpoint=self.settings['endpoints']['info'])
@@ -59,6 +61,13 @@ class Module(module.ModuleModel):
                 name=f'{self.rpc_prefix}{mapper_name}'
             )
             log.debug(f'Auth mapper {str(mapper_name)} registered in rpc_manager under name {self.rpc_prefix}{mapper_name}')
+        # Info RPCs
+        for mapper_name, mapper_instance in mappers.items():
+            self.context.rpc_manager.register_function(
+                func=mapper_instance.info,
+                name=f'{self.info_prefix}{mapper_name}'
+            )
+            log.debug(f'Auth info provider {str(mapper_name)} registered in rpc_manager under name {self.info_prefix}{mapper_name}')
 
     def deinit(self):  # pylint: disable=R0201
         """ De-init module """
