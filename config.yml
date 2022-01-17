@@ -1,10 +1,13 @@
 endpoints:
   info: "/forward-auth/info"
+
 header:
+  check_header_scope_group: true
   grafana:
     X-WEBAUTH-USER: "'auth_attributes'.'preferred_username'"
     X-WEBAUTH-NAME: "'auth_attributes'.'name'"
     X-WEBAUTH-EMAIL: "'auth_attributes'.'email'"
+
 json:
   galloper:
     login: "'auth_attributes'.'preferred_username'"

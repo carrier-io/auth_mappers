@@ -25,6 +25,8 @@ class HeaderMapper(RawMapper):
         super().__init__(**kwargs, info_endpoint=info_endpoint)
         self.access_denied_endpoint = access_denied_endpoint
         self.mapper_settings = mapper_settings
+        #
+        self.check_header_scope_group = self.mapper_settings.pop("check_header_scope_group", True)
 
     def auth(self, response: Response, scope: str = '') -> Response:
         """ Map auth data """
@@ -32,7 +34,8 @@ class HeaderMapper(RawMapper):
             raise redirect(self.access_denied_endpoint)
         response = super(HeaderMapper, self).auth(response, scope)  # Set "raw" headers too
         auth_info = self.info(scope)
-        if f"/{scope}" not in auth_info["auth_attributes"]["groups"]:
+        if self.check_header_scope_group and \
+                f"/{scope}" not in auth_info["auth_attributes"]["groups"]:
             raise NameError(f"User is not a memeber of {scope} group")
         try:
             for header, path in self.mapper_settings[scope].items():
