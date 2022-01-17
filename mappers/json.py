@@ -31,11 +31,13 @@ class JsonMapper(RawMapper):
 
     def auth(self, response: Response, scope: str = '') -> Response:
         """ Map auth data """
-        response.headers["X-Auth-Session-Endpoint"] = flask.url_for(
+        info_url = flask.url_for(
             "auth_root.info",
             target="json",
             scope=urllib.parse.quote_plus(scope),
         )
+        response.headers["X-Auth-Session-Endpoint"] = \
+            f'{flask.request.host_url.rstrip("/")}{info_url}'
         response.headers["X-Auth-Session-Name"] = session["name"]
         response.headers["X-Auth-Session-Id"] = session["auth_cookie"]
         return response

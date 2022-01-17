@@ -26,7 +26,7 @@ class RawMapper(BaseMapper):
     def auth(self, response: Response, scope: str = '') -> Response:
         """ Map auth data """
         response.headers["X-Auth-Session-Endpoint"] = \
-            f'{flask.request.host_url}{flask.url_for("auth_root.info")}'
+            f'{flask.request.host_url.rstrip("/")}{flask.url_for("auth_root.info")}'
         response.headers["X-Auth-Session-Name"] = session["name"]
         response.headers["X-Auth-Session-Id"] = session["auth_cookie"]
         return response
