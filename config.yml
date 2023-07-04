@@ -1,15 +1,21 @@
-endpoints:
-  info: "/forward-auth/info"
-
 header:
-  check_header_scope_group: true
-  grafana:
-    X-WEBAUTH-USER: "'auth_attributes'.'preferred_username'"
-    X-WEBAUTH-NAME: "'auth_attributes'.'name'"
-    X-WEBAUTH-EMAIL: "'auth_attributes'.'email'"
+  scopes:
+    grafana:
+      # require:
+      # - scope: 1
+      #   permissions:
+      #   - global_admin
+      headers:
+        X-WEBAUTH-USER: "'provider_attr'.'nameid'"
+        # X-WEBAUTH-USER: "'auth_attributes'.'preferred_username'"
+        # X-WEBAUTH-NAME: "'auth_attributes'.'name'"
+        # X-WEBAUTH-EMAIL: "'auth_attributes'.'email'"
 
 json:
-  galloper:
-    login: "'auth_attributes'.'preferred_username'"
-    name: "'auth_attributes'.'name'"
-    email: "'auth_attributes'.'email'"
+  # endpoint: ""
+  scopes:
+    galloper:
+      login: "'provider_attr'.'nameid'"
+      # login: "'auth_attributes'.'preferred_username'"
+      # name: "'auth_attributes'.'name'"
+      # email: "'auth_attributes'.'email'"
